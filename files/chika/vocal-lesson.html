@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="豊田チカ ボイスレッスン。ジャズボーカリスト豊田チカへのレッスンお問い合わせフォーム。">
+  <title>Vocal Lesson | 豊田チカ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" role="navigation" aria-label="メインナビゲーション">
+    <a href="index.html" class="nav-logo">豊田チカ</a>
+    <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="live-schedule.html">Live Schedule</a></li>
+      <li><a href="discography.html">Discography</a></li>
+      <li><a href="vocal-lesson.html">Vocal Lesson</a></li>
+      <li><a href="../klavier/index.html" target="_blank">KLAVIER</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+  </nav>
+
+  <!-- ページヘッダー -->
+  <header class="page-header" role="banner">
+    <div class="container">
+      <p class="page-header-label">Lesson</p>
+      <h1 class="page-header-title">Vocal Lesson</h1>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       レッスン紹介セクション
+       ============================================================ -->
+  <section class="section" aria-label="ボイスレッスンについて">
+    <div class="container">
+
+      <!-- レッスンの説明 -->
+      <div class="lesson-intro">
+        <p>
+          ジャズボーカリスト 豊田チカによるボイスレッスンのご案内です。<br>
+          初心者の方からジャズをより深く学びたい方まで、<br>
+          ご経験に合わせた丁寧なレッスンをご提供しています。<br><br>
+          レッスンに関するお問い合わせは、下記のフォームよりお気軽にどうぞ。
+        </p>
+      </div>
+
+      <!-- ============================================================
+           お問い合わせフォーム
+           【仕組み】入力された内容をmailto:リンクでGmailに送信する。
+                     JavaScriptが main.js で送信処理を行っている。
+           ============================================================ -->
+      <!-- id="contact-form" でJavaScriptから参照 -->
+      <form id="contact-form" class="contact-form" novalidate>
+        <!-- novalidate: ブラウザのデフォルトバリデーションを無効化し、JS側で制御する -->
+
+        <!-- お名前 -->
+        <div class="form-group">
+          <!-- label と input を for/id で紐付けることで
+               ラベルをクリックしても入力欄にフォーカスが当たる -->
+          <label class="form-label" for="form-name">
+            お名前 <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="form-name"
+            class="form-input"
+            placeholder="例：山田 花子"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <!-- 連絡先（電話番号またはメールアドレス） -->
+        <div class="form-group">
+          <label class="form-label" for="form-contact">
+            連絡先（電話番号またはメールアドレス）<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="form-contact"
+            class="form-input"
+            placeholder="例：090-0000-0000 または example@mail.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <!-- メッセージ -->
+        <div class="form-group">
+          <label class="form-label" for="form-message">
+            メッセージ <span class="required">*</span>
+          </label>
+          <textarea
+            id="form-message"
+            class="form-textarea"
+            placeholder="レッスンのご希望や、ご質問などをご自由にお書きください。"
+            required
+          ></textarea>
+        </div>
+
+        <!-- 送信ボタン -->
+        <!-- id="submit-btn" でJavaScriptから参照（送信後に無効化するため） -->
+        <button type="submit" id="submit-btn" class="btn-submit">
+          送信する
+        </button>
+
+        <!-- 注意書き -->
+        <p style="text-align:center; margin-top: 16px; font-size: 0.72rem; color: var(--color-text-muted);">
+          送信ボタンを押すと、メールアプリが開きます。<br>
+          内容をご確認の上、メールを送信してください。
+        </p>
+      </form>
+
+      <!-- ============================================================
+           送信完了メッセージ
+           【役割】フォーム送信後に main.js がここを表示する。
+                   デフォルトは display:none で非表示。
+           ============================================================ -->
+      <div id="form-success" class="form-success contact-form" role="alert">
+        <h3>ありがとうございます</h3>
+        <p>
+          メールアプリが開きましたら、<br>
+          内容をご確認の上、送信をお願いします。<br><br>
+          <a href="index.html" style="color: var(--color-accent);">トップページへ戻る</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-logo">豊田チカ</p>
+          <p class="footer-desc">Jazz Vocalist<br>音楽生活40年以上。</p>
+        </div>
+        <div>
+          <p class="footer-heading">Navigation</p>
+          <ul class="footer-links">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="live-schedule.html">Live Schedule</a></li>
+            <li><a href="discography.html">Discography</a></li>
+            <li><a href="vocal-lesson.html">Vocal Lesson</a></li>
+            <li><a href="../klavier/index.html" target="_blank">KLAVIER</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Contact</p>
+          <p class="footer-desc">
+            <a href="vocal-lesson.html" style="color:inherit;">レッスンのお問い合わせ</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Office Chika. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

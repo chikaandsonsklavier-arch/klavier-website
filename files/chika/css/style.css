@@ -1,0 +1,722 @@
+/* ============================================================
+   style.css — 豊田チカサイト 共通スタイル
+   【役割】シンプルで上品な白ベースのデザイン。
+           ジャズボーカリストとしての品格を表現する。
+   ============================================================ */
+
+/* ── Google Fonts 読み込み ──
+   Playfair Display: 優雅な見出し用セリフ体（KLAVIERより女性的な印象）
+   Noto Sans JP: 日本語テキスト用
+   ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+/* ── CSS変数（カラーパレット）──
+   白・グレー・黒を中心にしたシンプルな配色 */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-soft: #f9f9f7;
+  --color-text: #1c1c1c;
+  --color-text-muted: #8a8a8a;
+  --color-accent: #4a3728;      /* 深みのあるダークブラウン（温かみがありつつ上品） */
+  --color-accent-light: #7a6050;
+  --color-border: #e8e8e4;
+  --color-nav-bg: rgba(255,255,255,0.96);
+
+  --font-display: 'Playfair Display', 'Georgia', serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+
+  --max-width: 980px;
+  --nav-height: 68px;
+  --transition: 0.3s ease;
+}
+
+/* ── リセット ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.9;
+  font-weight: 300;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   ナビゲーション
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  background: var(--color-nav-bg);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 44px;
+  transition: box-shadow var(--transition);
+}
+
+.nav.scrolled {
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text);
+  font-style: italic;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  transition: color var(--transition);
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-accent);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover { color: var(--color-text); }
+.nav-links a:hover::after { width: 100%; }
+
+/* 現在ページのリンクを強調 */
+.nav-links a.current {
+  color: var(--color-accent);
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.nav-hamburger span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--color-text);
+  display: block;
+  transition: var(--transition);
+}
+
+/* ============================================================
+   共通レイアウト
+   ============================================================ */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 44px;
+}
+
+.section { padding: 90px 0; }
+.section-alt { background: var(--color-bg-soft); }
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+/* ============================================================
+   ヒーロー（ホームページ）
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  position: relative;
+}
+
+/* 薄い縦線のテクスチャ（シンプルさの中に繊細さ） */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 80px,
+    rgba(0,0,0,0.015) 80px,
+    rgba(0,0,0,0.015) 81px
+  );
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-name-jp {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero-name-en {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--color-text-muted);
+  margin: 16px 0 48px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-tagline {
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+
+/* テキストリンクボタン（シンプル・上品） */
+.hero-nav-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 4px;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.hero-nav-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ============================================================
+   プロフィールページ
+   ============================================================ */
+.page-header {
+  padding: calc(var(--nav-height) + 80px) 0 60px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.page-header-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+/* プロフィール本文レイアウト */
+.profile-content {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* 左:写真エリア、右:テキスト */
+  gap: 60px;
+  align-items: start;
+}
+
+.profile-image-placeholder {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  aspect-ratio: 3/4; /* 縦長の写真比率 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  position: sticky; /* スクロールしても写真が画面に残る */
+  top: calc(var(--nav-height) + 24px);
+}
+
+.profile-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-text h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.profile-text .name-en {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 32px;
+  display: block;
+}
+
+/* プロフィール本文の段落 */
+.profile-text p {
+  font-size: 0.9rem;
+  line-height: 2.1;
+  margin-bottom: 1.5em;
+  color: var(--color-text);
+}
+
+/* TV・ラジオ・コンサート実績 */
+.credits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border);
+}
+
+.credits-col h4 {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.credits-col ul {
+  list-style: none;
+}
+
+.credits-col ul li {
+  font-size: 0.82rem;
+  line-height: 2;
+  color: var(--color-text);
+  padding-left: 12px;
+  position: relative;
+}
+
+/* 箇条書きの代わりに細い縦線 */
+.credits-col ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ============================================================
+   Vocal Lessonページ
+   ============================================================ */
+.lesson-intro {
+  max-width: 620px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.lesson-intro p {
+  font-size: 0.9rem;
+  line-height: 2;
+  color: var(--color-text-muted);
+}
+
+/* お問い合わせフォーム */
+.contact-form {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* フォームの各項目 */
+.form-group {
+  margin-bottom: 28px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+/* 必須マーク */
+.form-label .required {
+  color: var(--color-accent);
+  margin-left: 4px;
+}
+
+/* テキスト入力・セレクトの共通スタイル */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color var(--transition);
+  -webkit-appearance: none; /* ブラウザデフォルトスタイルをリセット */
+}
+
+/* フォーカス時に下線をアクセントカラーに */
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-accent);
+}
+
+.form-textarea {
+  resize: vertical; /* 縦方向のリサイズのみ許可 */
+  min-height: 160px;
+}
+
+/* 送信ボタン */
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-submit:hover {
+  background: var(--color-accent-light);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 送信完了メッセージ */
+.form-success {
+  display: none; /* 送信完了後にJSで表示 */
+  text-align: center;
+  padding: 48px;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.form-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+}
+
+.form-success p {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ============================================================
+   Discographyページ
+   ============================================================ */
+.discography-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* 柔軟な列数 */
+  gap: 32px;
+}
+
+.disc-item {
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.disc-item:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+}
+
+.disc-cover {
+  aspect-ratio: 1; /* 正方形（CDジャケット比率） */
+  background: var(--color-bg-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--color-border);
+  font-style: italic;
+}
+
+.disc-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.disc-info {
+  padding: 20px;
+}
+
+.disc-year {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.disc-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.disc-label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   Live Scheduleページ
+   ============================================================ */
+.live-note {
+  text-align: center;
+  padding: 32px;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  margin-bottom: 40px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.live-note a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Blogページ（Coming Soon）
+   ============================================================ */
+.coming-soon {
+  text-align: center;
+  padding: 120px 40px;
+}
+
+.coming-soon-title {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.coming-soon p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   フッター
+   ============================================================ */
+.footer {
+  background: var(--color-text);
+  color: rgba(255,255,255,0.55);
+  padding: 60px 0 28px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #fff;
+  margin-bottom: 14px;
+}
+
+.footer-desc {
+  font-size: 0.8rem;
+  line-height: 1.9;
+}
+
+.footer-heading {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 18px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 0.8rem;
+  transition: color var(--transition);
+}
+
+.footer-links a:hover { color: #fff; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 22px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+/* ============================================================
+   アニメーション
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================
+   レスポンシブ対応
+   ============================================================ */
+
+/* ── タブレット（〜1024px） ── */
+@media (max-width: 1024px) {
+  .container { padding: 0 28px; }
+  .nav { padding: 0 28px; }
+  .profile-content { grid-template-columns: 220px 1fr; gap: 40px; }
+  .credits-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+
+/* ── スマートフォン（〜768px） ── */
+@media (max-width: 768px) {
+  :root { --nav-height: 60px; }
+  .container { padding: 0 20px; }
+  .nav { padding: 0 20px; }
+  .section { padding: 64px 0; }
+
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0; right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--color-border);
+    gap: 18px;
+  }
+
+  .nav-links.open { display: flex; }
+  .nav-hamburger { display: flex; }
+
+  /* プロフィールは縦積みに */
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-image-placeholder {
+    position: static;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .credits-grid { grid-template-columns: 1fr; gap: 24px; }
+
+  .hero-name-jp { font-size: clamp(3rem, 12vw, 5rem); }
+  .hero-nav { flex-direction: column; align-items: center; }
+
+  .section-title { font-size: 1.8rem; }
+  .page-header-title { font-size: 2rem; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+
+  .discography-list { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}

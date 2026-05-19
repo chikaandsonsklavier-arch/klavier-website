@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <!-- ↓ スマートフォンで正しくスケールして表示するための設定 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jazz & Wine KLAVIER（クラヴィエール）阿佐ヶ谷駅徒歩0分。ジャズとワインを楽しめるライブバー。">
+  <title>Jazz & Wine KLAVIER クラヴィエール | 阿佐ヶ谷</title>
+  <!-- ↓ 共通スタイルシートの読み込み -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       ナビゲーション（全ページ共通）
+       position: fixed で画面上部に固定表示される
+       ============================================================ -->
+  <nav class="nav" role="navigation" aria-label="メインナビゲーション">
+    <a href="index.html" class="nav-logo">
+      Jazz &amp; Wine <span>KLAVIER</span>
+    </a>
+
+    <!-- ハンバーガーボタン（スマートフォン用） -->
+    <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="events.html">イベント</a></li>
+      <!-- ↓ 外部リンク：豊田チカのサイトへ -->
+      <li><a href="../chika/index.html">豊田チカ</a></li>
+      <!-- ↓ 予約を促すCTAボタン（アクセントカラーで目立たせる） -->
+      <li><a href="tel:0333930418" class="nav-cta">予約する</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       ヒーローセクション
+       最初に目に入る部分。訪問者に強い印象を与える。
+       ============================================================ -->
+  <section class="hero" aria-label="メインビジュアル">
+    <div class="hero-inner">
+      <!-- 小さなラベル（eyebrow） -->
+      <p class="hero-eyebrow">Jazz &amp; Wine — 阿佐ヶ谷</p>
+
+      <!-- メインタイトル -->
+      <!-- clamp()でフォントサイズを画面幅に合わせて柔軟に変化させている -->
+      <h1 class="hero-title">KLAVIER</h1>
+
+      <!-- サブタイトル（斜体のジャズらしい雰囲気） -->
+      <p class="hero-subtitle">クラヴィエール</p>
+
+      <!-- 店舗の基本情報 -->
+      <p class="hero-info">
+        <strong>阿佐ヶ谷駅徒歩0分</strong>　杉並区阿佐谷南3-37-13-3F（富士そばビル）<br>
+        営業時間 19:00 〜 24:00（L.O. 23:20）　定休日：日・月・祝
+      </p>
+
+      <!-- CTAボタン群：予約と詳細確認の2択を提示 -->
+      <div class="hero-buttons">
+        <!-- ↓ 電話番号リンク：スマートフォンからそのまま電話できる -->
+        <a href="tel:0333930418" class="btn-primary">今すぐ予約する</a>
+        <a href="events.html" class="btn-secondary">イベントを見る</a>
+      </div>
+    </div>
+
+    <!-- スクロール促進の矢印 -->
+    <div class="hero-scroll" aria-hidden="true">scroll</div>
+  </section>
+
+  <!-- ============================================================
+       今月のライブ（スライドショー）
+       events.js のデータと main.js の initSlideshow() が
+       このセクションを自動で組み立てる
+       ============================================================ -->
+  <section class="slideshow-section section" aria-label="今月のライブ">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">This Month's Live</span>
+        <!-- ↓ id="current-month-label" に日本時間の今月名が main.js からセットされる -->
+        <h2 class="section-title" id="current-month-label">今月のライブ</h2>
+      </div>
+
+      <div class="slideshow-wrapper">
+        <!-- ↓ main.js の initSlideshow() がここにスライドを自動生成する -->
+        <div id="slideshow-container"></div>
+        <!-- ↓ ドットナビゲーション（スライドの枚数分の丸が生成される） -->
+        <div id="slideshow-dots" class="slideshow-dots" role="tablist" aria-label="スライドナビゲーション"></div>
+      </div>
+
+      <!-- イベントページへの誘導リンク -->
+      <div style="text-align:center; margin-top: 48px;">
+        <a href="events.html" class="btn-secondary">全イベントスケジュールを見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       店舗情報セクション
+       3カラムグリッドで場所・時間・連絡先を並べる
+       ============================================================ -->
+  <section class="section section-alt" aria-label="店舗情報">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Visit Us</span>
+        <h2 class="section-title">お店について</h2>
+      </div>
+
+      <!-- ↓ 3カラムグリッド（レスポンシブでタブレットは2列、スマホは1列に変化） -->
+      <div class="info-grid">
+        <!-- アクセス -->
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <p class="info-label">Access</p>
+          <p class="info-value">
+            阿佐ヶ谷駅徒歩0分<br>
+            杉並区阿佐谷南<br>
+            3-37-13-3F<br>
+            （富士そばビル3F）
+          </p>
+        </div>
+
+        <!-- 営業時間 -->
+        <div class="info-item">
+          <div class="info-icon">🕖</div>
+          <p class="info-label">Hours</p>
+          <p class="info-value">
+            19:00 〜 24:00<br>
+            (L.O. 23:20)<br><br>
+            <span style="color:var(--color-accent)">定休日：日・月・祝</span>
+          </p>
+        </div>
+
+        <!-- 連絡先 -->
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <p class="info-label">Contact</p>
+          <p class="info-value">
+            <!-- tel: リンクでスマートフォンからそのまま電話 -->
+            <a href="tel:0333930418">03-3393-0418</a><br><br>
+            <!-- mailto: リンクでメールソフトが開く -->
+            <a href="mailto:info.toyotachika@gmail.com" style="color:var(--color-accent); font-size:0.78rem;">
+              info.toyotachika@gmail.com
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       フッター
+       ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- ロゴ・説明 -->
+        <div>
+          <p class="footer-logo">KLAVIER</p>
+          <p class="footer-desc">
+            豊田チカが阿佐ヶ谷にオープンした<br>
+            Jazz &amp; Wineのお店。<br>
+            音楽とワインの特別な夜を。
+          </p>
+        </div>
+
+        <!-- ナビリンク -->
+        <div>
+          <p class="footer-heading">Navigation</p>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">イベント</a></li>
+            <li><a href="../chika/index.html">豊田チカ</a></li>
+          </ul>
+        </div>
+
+        <!-- 店舗情報 -->
+        <div>
+          <p class="footer-heading">Store Info</p>
+          <p class="footer-desc">
+            杉並区阿佐谷南3-37-13-3F<br>
+            Tel: <a href="tel:0333930418" style="color:inherit;">03-3393-0418</a><br>
+            19:00 〜 24:00（L.O. 23:20）<br>
+            定休日：日・月・祝
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Jazz &amp; Wine KLAVIER. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JavaScriptの読み込み（bodyの最後に置くのがベストプラクティス）
+       【理由】HTMLが全部読み込まれた後にJSが実行されるため、
+               要素が存在しない状態でJSが動くエラーを防げる。
+       ============================================================ -->
+  <!-- ↓ まずイベントデータを読み込む（main.jsより先に読む必要がある） -->
+  <script src="js/events.js"></script>
+  <!-- ↓ 次に動作ロジックを読み込む -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

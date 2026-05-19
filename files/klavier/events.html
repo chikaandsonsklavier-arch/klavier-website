@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jazz & Wine KLAVIER イベント・ライブスケジュール。阿佐ヶ谷のジャズバーKLAVIERの月別ライブ情報。">
+  <title>イベント | Jazz & Wine KLAVIER クラヴィエール</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ナビゲーション（index.html と同じ） -->
+  <nav class="nav" role="navigation" aria-label="メインナビゲーション">
+    <a href="index.html" class="nav-logo">
+      Jazz &amp; Wine <span>KLAVIER</span>
+    </a>
+    <button class="nav-hamburger" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <!-- ↓ 現在のページは文字色を変えて「今ここ」とわかるようにする -->
+      <li><a href="events.html" style="color: var(--color-accent);">イベント</a></li>
+      <li><a href="../chika/index.html">豊田チカ</a></li>
+      <li><a href="tel:0333930418" class="nav-cta">予約する</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       ページヘッダー
+       イベントページの上部に表示するタイトルエリア
+       ============================================================ -->
+  <header class="page-header" role="banner">
+    <div class="container">
+      <p class="page-header-label">Live Schedule</p>
+      <h1 class="page-header-title">イベント</h1>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       イベントリストセクション
+       ============================================================ -->
+  <section class="section" aria-label="イベントスケジュール">
+    <div class="container">
+
+      <!-- 月選択タブ
+           【役割】main.js の initEventTabs() がここに
+                   1月〜12月のボタンを自動生成する。
+           id="month-tabs" がJSから参照するための識別子 -->
+      <div id="month-tabs" class="month-tabs" role="tablist" aria-label="月を選択"></div>
+
+      <!-- イベント一覧
+           【役割】タブ選択時に main.js の renderEvents() が
+                   ここにイベントカードを自動生成する。
+           id="events-list" がJSから参照するための識別子 -->
+      <div id="events-list" class="events-list" aria-live="polite">
+        <!-- JavaScriptが有効な場合、ここはJSが自動で埋める -->
+        <!-- ↓ JSが無効な環境向けのフォールバックメッセージ -->
+        <noscript>
+          <p style="text-align:center; padding: 40px;">
+            JavaScriptを有効にしてください。
+          </p>
+        </noscript>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       予約促進バナー
+       イベントを見た後、自然に予約に誘導する
+       ============================================================ -->
+  <section class="section section-alt" aria-label="予約案内">
+    <div class="container" style="text-align: center;">
+      <span class="section-label">Reservation</span>
+      <h2 class="section-title" style="margin-bottom: 16px;">ご予約はお電話で</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: 40px; font-size: 0.9rem;">
+        当日のご予約もお気軽にどうぞ
+      </p>
+      <!-- 大きな電話番号リンク（予約を促すデザイン） -->
+      <a href="tel:0333930418" class="btn-primary" style="font-size: 1rem; padding: 20px 60px; letter-spacing: 0.2em;">
+        03-3393-0418
+      </a>
+      <p style="margin-top: 20px; font-size: 0.78rem; color: var(--color-text-muted);">
+        営業時間内（19:00〜24:00）にお電話ください
+      </p>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-logo">KLAVIER</p>
+          <p class="footer-desc">
+            豊田チカが阿佐ヶ谷にオープンした<br>
+            Jazz &amp; Wineのお店。<br>
+            音楽とワインの特別な夜を。
+          </p>
+        </div>
+        <div>
+          <p class="footer-heading">Navigation</p>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">イベント</a></li>
+            <li><a href="../chika/index.html">豊田チカ</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Store Info</p>
+          <p class="footer-desc">
+            杉並区阿佐谷南3-37-13-3F<br>
+            Tel: <a href="tel:0333930418" style="color:inherit;">03-3393-0418</a><br>
+            19:00 〜 24:00（L.O. 23:20）<br>
+            定休日：日・月・祝
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Jazz &amp; Wine KLAVIER. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS読み込み（events.js を先に読む） -->
+  <script src="js/events.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
