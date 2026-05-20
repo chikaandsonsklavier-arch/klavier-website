@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理ダッシュボード | KLAVIER & 豊田チカ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --bg-card: #1a1a1a;
+      --bg-input: #111111;
+      --border: #2a2a2a;
+      --border-focus: #8b2635;
+      --text: #e8e8e0;
+      --text-muted: #666660;
+      --accent: #8b2635;
+      --accent-light: #c4556a;
+      --gold: #b8973a;
+      --success: #3a8b5a;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Noto Sans JP', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── ヘッダー ── */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    .header-logo span { color: var(--gold); }
+
+    .header-status {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .status-dot.connected { background: var(--success); }
+
+    /* ── メインレイアウト ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 65px);
+    }
+
+    /* ── サイドバー ── */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 32px 0;
+    }
+
+    .sidebar-section {
+      margin-bottom: 32px;
+    }
+
+    .sidebar-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 24px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    .sidebar-item:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .sidebar-item.active {
+      color: var(--text);
+      border-left-color: var(--accent);
+      background: rgba(139,38,53,0.08);
+    }
+
+    .sidebar-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    /* ── メインコンテンツ ── */
+    .main {
+      padding: 40px;
+      max-width: 800px;
+    }
+
+    /* ── セクションタイトル ── */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+
+    /* ── GitHub設定カード ── */
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    .settings-card-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── フォーム要素 ── */
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: var(--border-focus);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+      line-height: 1.7;
+    }
+
+    .form-select option { background: var(--bg-card); }
+
+    /* 2カラムグリッド */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── ボタン ── */
+    .btn {
+      padding: 12px 28px;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      border-radius: 2px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent-light); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.72rem;
+    }
+
+    /* ── ログ・ステータス ── */
+    .log-box {
+      background: #080808;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: #5a9;
+      min-height: 120px;
+      max-height: 200px;
+      overflow-y: auto;
+      line-height: 1.8;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .log-box.visible { display: block; }
+    .log-error { color: #c55; }
+    .log-success { color: #5a9; }
+    .log-info { color: #88a; }
+
+    /* ── 区切り線 ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    /* ── タブ ── */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab {
+      padding: 10px 20px;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font-body);
+    }
+
+    .tab:hover { color: var(--text); }
+
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── パネル ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── 画像アップロード ── */
+    .upload-area {
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+
+    .upload-area:hover { border-color: var(--accent); }
+
+    .upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+
+    .upload-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .upload-preview {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .upload-preview img {
+      max-height: 160px;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    /* ── AIプレビューエリア ── */
+    .ai-preview {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .ai-preview.visible { display: block; }
+
+    .ai-preview-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .ai-preview-content {
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+
+    /* ── スピナー ── */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── トースト通知 ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 24px;
+      font-size: 0.82rem;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success { border-color: var(--success); color: #5cb; }
+    .toast.error { border-color: var(--accent); color: var(--accent-light); }
+
+    /* ── レスポンシブ ── */
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 16px 0; }
+      .sidebar-section { margin-bottom: 8px; }
+      .main { padding: 24px 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .header { padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <div class="header-logo">
+      KLAVIER <span>&</span> 豊田チカ — <span style="font-size:1rem; color: var(--text-muted);">管理ダッシュボード</span>
+    </div>
+    <div class="header-status">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">未接続</span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- サイドバー -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">設定</div>
+        <div class="sidebar-item active" onclick="showSection('settings')">
+          <span class="icon">⚙️</span> GitHub接続設定
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">KLAVIER</div>
+        <div class="sidebar-item" onclick="showSection('klavier-event')">
+          <span class="icon">🎷</span> イベント追加・編集
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">豊田チカ</div>
+        <div class="sidebar-item" onclick="showSection('chika-live')">
+          <span class="icon">🎤</span> ライブスケジュール
+        </div>
+        <div class="sidebar-item" onclick="showSection('chika-disc')">
+          <span class="icon">💿</span> ディスコグラフィー
+        </div>
+        <div class="sidebar-item" onclick="showSection('chika-blog')">
+          <span class="icon">✏️</span> ブログ投稿
+        </div>
+      </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+
+      <!-- ══════════════════════════════
+           GitHub接続設定
+           ══════════════════════════════ -->
+      <section id="section-settings" class="panel active">
+        <h1 class="section-title">GitHub 接続設定</h1>
+        <p class="section-desc">
+          Personal Access Token を入力してGitHubと連携します。<br>
+          トークンはこのページにのみ保存され、外部には送信されません。
+        </p>
+
+        <div class="settings-card">
+          <div class="settings-card-title">接続情報</div>
+          <div class="settings-grid">
+            <div class="form-group">
+              <label class="form-label">GitHubユーザー名</label>
+              <input type="text" class="form-input" id="gh-user"
+                placeholder="chikaandsonsklavier-arch"
+                value="chikaandsonsklavier-arch">
+            </div>
+            <div class="form-group">
+              <label class="form-label">リポジトリ名</label>
+              <input type="text" class="form-input" id="gh-repo"
+                placeholder="klavier-website"
+                value="klavier-website">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Personal Access Token</label>
+            <input type="password" class="form-input" id="gh-token"
+              placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ブランチ名</label>
+            <input type="text" class="form-input" id="gh-branch"
+              placeholder="main" value="main">
+          </div>
+          <button class="btn btn-primary" onclick="testConnection()">接続をテストする</button>
+        </div>
+
+        <div id="log-settings" class="log-box"></div>
+      </section>
+
+      <!-- ══════════════════════════════
+           KLAVIERイベント追加・編集
+           ══════════════════════════════ -->
+      <section id="section-klavier-event" class="panel">
+        <h1 class="section-title">イベント追加・編集</h1>
+        <p class="section-desc">
+          イベントを追加すると events.js が自動で更新されます。<br>
+          ホームのスライドショーとイベントページに自動反映されます。
+        </p>
+
+        <!-- タブ：追加 / 一覧 -->
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab(this, 'tab-add')">＋ イベントを追加</button>
+          <button class="tab" onclick="switchTab(this, 'tab-list')">一覧・削除</button>
+        </div>
+
+        <!-- 追加タブ -->
+        <div id="tab-add" class="panel active">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">月 <span style="color:var(--accent)">*</span></label>
+              <select class="form-select" id="ev-month">
+                <option value="">選択してください</option>
+                <option>1</option><option>2</option><option>3</option>
+                <option>4</option><option>5</option><option>6</option>
+                <option>7</option><option>8</option><option>9</option>
+                <option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">日付 <span style="color:var(--accent)">*</span></label>
+              <input type="text" class="form-input" id="ev-date"
+                placeholder="例: 7月5日（土）">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">イベントタイトル <span style="color:var(--accent)">*</span></label>
+            <input type="text" class="form-input" id="ev-title"
+              placeholder="例: Summer Jazz Night">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">出演アーティスト <span style="color:var(--accent)">*</span></label>
+            <input type="text" class="form-input" id="ev-artist"
+              placeholder="例: 豊田チカ & ピアノトリオ">
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">時間</label>
+              <input type="text" class="form-input" id="ev-time"
+                placeholder="OPEN 19:00 / START 19:30">
+            </div>
+            <div class="form-group">
+              <label class="form-label">料金</label>
+              <input type="text" class="form-input" id="ev-charge"
+                placeholder="¥3,000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">説明文（任意）</label>
+            <textarea class="form-textarea" id="ev-desc"
+              placeholder="ライブの紹介文を入力してください"></textarea>
+          </div>
+
+          <!-- 画像アップロード -->
+          <div class="form-group">
+            <label class="form-label">フライヤー画像（任意）</label>
+            <div class="upload-area" id="upload-area">
+              <input type="file" accept="image/*" id="ev-image" onchange="previewImage(this)">
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-text">
+                クリックして画像を選択<br>
+                <span style="font-size:0.7rem">JPG・PNG・WebP対応</span>
+              </div>
+              <div class="upload-preview" id="upload-preview">
+                <img id="preview-img" src="" alt="プレビュー">
+              </div>
+            </div>
+          </div>
+
+          <!-- AIによる説明文生成 -->
+          <div class="form-group">
+            <button class="btn btn-secondary btn-small" onclick="generateDescription()">
+              ✨ AIで説明文を生成する
+            </button>
+            <div class="ai-preview" id="ai-preview">
+              <div class="ai-preview-label">AI生成プレビュー</div>
+              <div class="ai-preview-content" id="ai-preview-content"></div>
+              <div style="margin-top:12px; display:flex; gap:8px;">
+                <button class="btn btn-primary btn-small" onclick="useAIDescription()">この文章を使う</button>
+                <button class="btn btn-secondary btn-small" onclick="generateDescription()">再生成</button>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-primary" onclick="addEvent()" id="btn-add-event">
+              GitHubに保存して公開する
+            </button>
+            <button class="btn btn-secondary" onclick="clearEventForm()">クリア</button>
+          </div>
+
+          <div id="log-event" class="log-box"></div>
+        </div>
+
+        <!-- 一覧タブ -->
+        <div id="tab-list" class="panel">
+          <button class="btn btn-secondary btn-small" onclick="loadEventList()" style="margin-bottom:20px;">
+            🔄 一覧を読み込む
+          </button>
+          <div id="event-list-container">
+            <p style="color:var(--text-muted); font-size:0.82rem;">「一覧を読み込む」をクリックしてください。</p>
+          </div>
+          <div id="log-list" class="log-box"></div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           豊田チカ ライブスケジュール
+           ══════════════════════════════ -->
+      <section id="section-chika-live" class="panel">
+        <h1 class="section-title">ライブスケジュール追加</h1>
+        <p class="section-desc">豊田チカサイトのライブスケジュールページに情報を追加します。</p>
+
+        <div class="form-group">
+          <label class="form-label">日付 <span style="color:var(--accent)">*</span></label>
+          <input type="text" class="form-input" id="live-date" placeholder="例: 7月15日（火）">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">タイトル・会場 <span style="color:var(--accent)">*</span></label>
+          <input type="text" class="form-input" id="live-title" placeholder="例: Blue Note Tokyo">
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">時間</label>
+            <input type="text" class="form-input" id="live-time" placeholder="開場19:00 / 開演19:30">
+          </div>
+          <div class="form-group">
+            <label class="form-label">料金</label>
+            <input type="text" class="form-input" id="live-charge" placeholder="¥4,000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">詳細・メモ</label>
+          <textarea class="form-textarea" id="live-detail" placeholder="会場住所や出演者など"></textarea>
+        </div>
+
+        <button class="btn btn-primary" onclick="addLive()">GitHubに保存して公開する</button>
+        <div id="log-live" class="log-box"></div>
+      </section>
+
+      <!-- ══════════════════════════════
+           ディスコグラフィー追加
+           ══════════════════════════════ -->
+      <section id="section-chika-disc" class="panel">
+        <h1 class="section-title">ディスコグラフィー追加</h1>
+        <p class="section-desc">新しいCDアルバムをディスコグラフィーページに追加します。</p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">リリース年・種別</label>
+            <input type="text" class="form-input" id="disc-year" placeholder="例: 2025 / 12th Album">
+          </div>
+          <div class="form-group">
+            <label class="form-label">レーベル</label>
+            <input type="text" class="form-input" id="disc-label" placeholder="例: キングレコード">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">アルバムタイトル <span style="color:var(--accent)">*</span></label>
+          <input type="text" class="form-input" id="disc-title" placeholder="例: My Favorite Songs">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ジャケット画像（任意）</label>
+          <div class="upload-area">
+            <input type="file" accept="image/*" id="disc-image" onchange="previewDiscImage(this)">
+            <div class="upload-icon">💿</div>
+            <div class="upload-text">クリックして画像を選択</div>
+            <div class="upload-preview" id="disc-preview">
+              <img id="disc-preview-img" src="" alt="プレビュー">
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="addDisc()">GitHubに保存して公開する</button>
+        <div id="log-disc" class="log-box"></div>
+      </section>
+
+      <!-- ══════════════════════════════
+           ブログ投稿
+           ══════════════════════════════ -->
+      <section id="section-chika-blog" class="panel">
+        <h1 class="section-title">ブログ投稿</h1>
+        <p class="section-desc">新しいブログ記事を投稿します。現在はComing Soon表示中です。</p>
+
+        <div class="form-group">
+          <label class="form-label">タイトル <span style="color:var(--accent)">*</span></label>
+          <input type="text" class="form-input" id="blog-title" placeholder="記事のタイトル">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">本文 <span style="color:var(--accent)">*</span></label>
+          <textarea class="form-textarea" id="blog-body"
+            style="min-height:200px"
+            placeholder="記事の内容を入力してください"></textarea>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-secondary btn-small" onclick="generateBlogContent()">
+            ✨ AIで文章を整える
+          </button>
+          <div class="ai-preview" id="ai-blog-preview">
+            <div class="ai-preview-label">AI整形プレビュー</div>
+            <div class="ai-preview-content" id="ai-blog-content"></div>
+            <div style="margin-top:12px; display:flex; gap:8px;">
+              <button class="btn btn-primary btn-small" onclick="useBlogContent()">この内容を使う</button>
+              <button class="btn btn-secondary btn-small" onclick="generateBlogContent()">再生成</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(139,38,53,0.08); border:1px solid rgba(139,38,53,0.2); border-radius:4px; padding:16px; margin-bottom:20px; font-size:0.78rem; color:var(--text-muted);">
+          ⚠️ ブログ機能は現在Coming Soon表示中です。投稿するとブログページが自動でオープンします。
+        </div>
+
+        <button class="btn btn-primary" onclick="addBlog()">GitHubに保存して公開する</button>
+        <div id="log-blog" class="log-box"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- トースト通知 -->
+  <div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// GitHub API の設定を取得するヘルパー
+// ローカルストレージに保存してページを閉じても設定が残る
+// ============================================================
+function getConfig() {
+  return {
+    user:   document.getElementById('gh-user')?.value   || localStorage.getItem('gh-user')   || '',
+    repo:   document.getElementById('gh-repo')?.value   || localStorage.getItem('gh-repo')   || '',
+    token:  document.getElementById('gh-token')?.value  || localStorage.getItem('gh-token')  || '',
+    branch: document.getElementById('gh-branch')?.value || localStorage.getItem('gh-branch') || 'main',
+  };
+}
+
+// ページ読み込み時に保存済み設定を復元
+window.addEventListener('DOMContentLoaded', () => {
+  const fields = ['gh-user','gh-repo','gh-token','gh-branch'];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    const saved = localStorage.getItem(id);
+    if (el && saved) el.value = saved;
+  });
+});
+
+// 設定をlocalStorageに保存
+function saveConfig() {
+  ['gh-user','gh-repo','gh-token','gh-branch'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) localStorage.setItem(id, el.value);
+  });
+}
+
+// ============================================================
+// GitHub API: ファイルの内容とSHAを取得する
+// SHA はファイルを更新するときに必要なID
+// ============================================================
+async function getFile(path) {
+  const { user, repo, token, branch } = getConfig();
+  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}?ref=${branch}`;
+  const res = await fetch(url, {
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+    }
+  });
+  if (!res.ok) throw new Error(`ファイル取得失敗: ${path} (${res.status})`);
+  const data = await res.json();
+  // Base64デコードしてテキストに変換
+  const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+  return { content, sha: data.sha };
+}
+
+// ============================================================
+// GitHub API: ファイルを更新（または新規作成）する
+// ============================================================
+async function putFile(path, content, message, sha = null) {
+  const { user, repo, token, branch } = getConfig();
+  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const body = {
+    message,
+    content: btoa(unescape(encodeURIComponent(content))), // Base64エンコード
+    branch,
+  };
+  if (sha) body.sha = sha; // 既存ファイルを更新する場合はSHAが必要
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || `更新失敗 (${res.status})`);
+  }
+  return await res.json();
+}
+
+// ============================================================
+// ログ表示ヘルパー
+// ============================================================
+function log(boxId, msg, type = 'info') {
+  const box = document.getElementById(boxId);
+  if (!box) return;
+  box.classList.add('visible');
+  const line = document.createElement('div');
+  line.className = `log-${type}`;
+  const time = new Date().toLocaleTimeString('ja-JP');
+  line.textContent = `[${time}] ${msg}`;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ============================================================
+// トースト通知
+// ============================================================
+function showToast(msg, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = `toast ${type} show`;
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ============================================================
+// セクション切り替え（サイドバー）
+// ============================================================
+function showSection(name) {
+  // 全パネルを非表示
+  document.querySelectorAll('.panel[id^="section-"]').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+
+  // 対象を表示
+  document.getElementById(`section-${name}`)?.classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ============================================================
+// タブ切り替え（イベントページ内）
+// ============================================================
+function switchTab(btn, tabId) {
+  btn.closest('.panel[id^="section-"]').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const parent = btn.closest('.panel[id^="section-"]');
+  parent.querySelectorAll(':scope > .panel').forEach(p => p.classList.remove('active'));
+  parent.querySelector(`#${tabId}`)?.classList.add('active');
+}
+
+// ============================================================
+// GitHub接続テスト
+// ============================================================
+async function testConnection() {
+  saveConfig();
+  const logId = 'log-settings';
+  log(logId, 'GitHub APIに接続中...', 'info');
+
+  const { user, repo, token } = getConfig();
+  if (!user || !repo || !token) {
+    log(logId, '❌ ユーザー名・リポジトリ名・トークンを入力してください', 'error');
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${user}/${repo}`, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      log(logId, `✅ 接続成功！ リポジトリ: ${data.full_name}`, 'success');
+      document.getElementById('status-dot').classList.add('connected');
+      document.getElementById('status-text').textContent = '接続済み';
+      showToast('GitHubに接続しました！');
+    } else {
+      log(logId, `❌ 接続失敗 (${res.status}) — トークンを確認してください`, 'error');
+    }
+  } catch (e) {
+    log(logId, `❌ エラー: ${e.message}`, 'error');
+  }
+}
+
+// ============================================================
+// 画像プレビュー
+// ============================================================
+function previewImage(input) {
+  if (!input.files[0]) return;
+  const preview = document.getElementById('upload-preview');
+  const img = document.getElementById('preview-img');
+  img.src = URL.createObjectURL(input.files[0]);
+  preview.style.display = 'block';
+}
+
+function previewDiscImage(input) {
+  if (!input.files[0]) return;
+  const preview = document.getElementById('disc-preview');
+  const img = document.getElementById('disc-preview-img');
+  img.src = URL.createObjectURL(input.files[0]);
+  preview.style.display = 'block';
+}
+
+// ============================================================
+// Claude API: AI説明文生成（イベント用）
+// ============================================================
+async function generateDescription() {
+  const title  = document.getElementById('ev-title').value;
+  const artist = document.getElementById('ev-artist').value;
+  const date   = document.getElementById('ev-date').value;
+  const charge = document.getElementById('ev-charge').value;
+
+  if (!artist) {
+    showToast('アーティスト名を入力してください', 'error');
+    return;
+  }
+
+  const preview = document.getElementById('ai-preview');
+  const content = document.getElementById('ai-preview-content');
+  preview.classList.add('visible');
+  content.textContent = '生成中...';
+
+  try {
+    // Claude APIを呼び出して説明文を生成
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `阿佐ヶ谷のジャズバー「KLAVIER」のライブイベントの紹介文を日本語で2〜3文で書いてください。
+          
+イベント情報：
+- タイトル: ${title || '未入力'}
+- 出演: ${artist}
+- 日付: ${date || '未入力'}
+- 料金: ${charge || '未入力'}
+
+ジャズバーらしい上品で魅力的な文体でお願いします。来店意欲が高まるような文章にしてください。説明文だけを返してください。`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '生成できませんでした';
+    content.textContent = text;
+  } catch (e) {
+    content.textContent = `エラー: ${e.message}`;
+  }
+}
+
+// AI生成文をフォームに適用
+function useAIDescription() {
+  const text = document.getElementById('ai-preview-content').textContent;
+  document.getElementById('ev-desc').value = text;
+  document.getElementById('ai-preview').classList.remove('visible');
+  showToast('説明文を適用しました');
+}
+
+// ============================================================
+// Claude API: AIブログ文章整形
+// ============================================================
+async function generateBlogContent() {
+  const body = document.getElementById('blog-body').value;
+  const title = document.getElementById('blog-title').value;
+
+  if (!body) {
+    showToast('本文を入力してください', 'error');
+    return;
+  }
+
+  const preview = document.getElementById('ai-blog-preview');
+  const content = document.getElementById('ai-blog-content');
+  preview.classList.add('visible');
+  content.textContent = '生成中...';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `以下の文章をジャズボーカリスト豊田チカのブログ記事として自然で読みやすい日本語に整えてください。
+タイトル: ${title}
+本文: ${body}
+
+整えた本文だけを返してください。`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    content.textContent = data.content?.[0]?.text || '生成できませんでした';
+  } catch (e) {
+    content.textContent = `エラー: ${e.message}`;
+  }
+}
+
+function useBlogContent() {
+  const text = document.getElementById('ai-blog-content').textContent;
+  document.getElementById('blog-body').value = text;
+  document.getElementById('ai-blog-preview').classList.remove('visible');
+  showToast('本文を適用しました');
+}
+
+// ============================================================
+// イベント追加 → events.js を更新してGitHubにプッシュ
+// ============================================================
+async function addEvent() {
+  const logId = 'log-event';
+  const month  = document.getElementById('ev-month').value;
+  const date   = document.getElementById('ev-date').value;
+  const title  = document.getElementById('ev-title').value;
+  const artist = document.getElementById('ev-artist').value;
+  const time   = document.getElementById('ev-time').value;
+  const charge = document.getElementById('ev-charge').value;
+  const desc   = document.getElementById('ev-desc').value;
+
+  if (!month || !date || !artist) {
+    showToast('月・日付・アーティスト名は必須です', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btn-add-event');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>保存中...';
+
+  log(logId, 'events.js を取得中...', 'info');
+
+  try {
+    // events.js のパス（リポジトリ内のパス）
+    const filePath = 'files/klavier/js/events.js';
+    const { content, sha } = await getFile(filePath);
+
+    // 新しいイベントオブジェクトを文字列として作成
+    const newEvent = `  {
+    month: ${month},
+    date: "${date}",
+    title: "${title}",
+    artist: "${artist}",
+    time: "${time || 'OPEN 19:00 / START 19:30'}",
+    charge: "${charge || '¥3,000'}",
+    description: "${desc.replace(/"/g, '\\"')}",
+    image: "",
+  },`;
+
+    // events.js の配列の末尾（];の直前）に挿入
+    const updated = content.replace(/(\s*\];)(?=[^]*$)/, `\n${newEvent}\n$1`);
+
+    log(logId, 'GitHubに保存中...', 'info');
+    await putFile(filePath, updated, `イベント追加: ${date} ${artist}`, sha);
+
+    log(logId, `✅ 完了！ ${date} ${artist} を追加しました`, 'success');
+    log(logId, '⏳ サイトへの反映まで1〜2分かかります', 'info');
+    showToast('イベントを追加しました！');
+    clearEventForm();
+
+  } catch (e) {
+    log(logId, `❌ エラー: ${e.message}`, 'error');
+    showToast('エラーが発生しました', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'GitHubに保存して公開する';
+  }
+}
+
+// ============================================================
+// イベント一覧読み込み
+// ============================================================
+async function loadEventList() {
+  const logId = 'log-list';
+  const container = document.getElementById('event-list-container');
+  container.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">読み込み中...</p>';
+
+  try {
+    const { content } = await getFile('files/klavier/js/events.js');
+
+    // events.jsからイベントデータを正規表現で抽出
+    const matches = [...content.matchAll(/month:\s*(\d+)[^}]*date:\s*"([^"]+)"[^}]*title:\s*"([^"]+)"[^}]*artist:\s*"([^"]+)"/gs)];
+
+    if (matches.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">イベントが見つかりません</p>';
+      return;
+    }
+
+    container.innerHTML = matches.map((m, i) => `
+      <div style="display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
+                  padding:14px 16px; border:1px solid var(--border); border-radius:2px; margin-bottom:8px;">
+        <div>
+          <div style="font-size:0.72rem; color:var(--gold); margin-bottom:4px;">${m[1]}月 — ${m[2]}</div>
+          <div style="font-size:0.88rem;">${m[3]}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">${m[4]}</div>
+        </div>
+      </div>
+    `).join('');
+
+    log(logId, `✅ ${matches.length}件のイベントを読み込みました`, 'success');
+
+  } catch (e) {
+    container.innerHTML = `<p style="color:var(--accent-light);font-size:0.82rem;">❌ ${e.message}</p>`;
+  }
+}
+
+// ============================================================
+// ライブスケジュール追加 → chika/live-schedule.html を更新
+// ============================================================
+async function addLive() {
+  const logId = 'log-live';
+  const date   = document.getElementById('live-date').value;
+  const title  = document.getElementById('live-title').value;
+  const time   = document.getElementById('live-time').value;
+  const charge = document.getElementById('live-charge').value;
+  const detail = document.getElementById('live-detail').value;
+
+  if (!date || !title) {
+    showToast('日付とタイトルは必須です', 'error');
+    return;
+  }
+
+  log(logId, 'live-schedule.html を取得中...', 'info');
+
+  try {
+    const filePath = 'files/chika/live-schedule.html';
+    const { content, sha } = await getFile(filePath);
+
+    // 新しいライブアイテムのHTMLを作成
+    const newItem = `
+        <div class="event-list-item">
+          <div class="event-list-date">
+            <div class="event-list-date-text">${date}</div>
+          </div>
+          <div class="event-list-body">
+            <h3 class="event-list-title">${title}</h3>
+            <p class="event-list-artist">豊田チカ</p>
+            <div class="event-list-meta">
+              ${time ? `<strong>時間</strong>${time}<br>` : ''}
+              ${charge ? `<strong>料金</strong>${charge}<br>` : ''}
+              ${detail ? `<span style="color:var(--color-text-muted)">${detail}</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+
+    // 「準備中」のサンプルアイテムの後に挿入
+    const updated = content.replace(
+      /(<div class="events-list"[^>]*>)/,
+      `$1\n${newItem}`
+    );
+
+    log(logId, 'GitHubに保存中...', 'info');
+    await putFile(filePath, updated, `ライブ追加: ${date} ${title}`, sha);
+
+    log(logId, `✅ 完了！ ${date} ${title} を追加しました`, 'success');
+    showToast('ライブスケジュールを追加しました！');
+
+    // フォームをクリア
+    ['live-date','live-title','live-time','live-charge','live-detail'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+  } catch (e) {
+    log(logId, `❌ エラー: ${e.message}`, 'error');
+    showToast('エラーが発生しました', 'error');
+  }
+}
+
+// ============================================================
+// ディスコグラフィー追加 → chika/discography.html を更新
+// ============================================================
+async function addDisc() {
+  const logId  = 'log-disc';
+  const year   = document.getElementById('disc-year').value;
+  const title  = document.getElementById('disc-title').value;
+  const label  = document.getElementById('disc-label').value;
+
+  if (!title) {
+    showToast('タイトルは必須です', 'error');
+    return;
+  }
+
+  log(logId, 'discography.html を取得中...', 'info');
+
+  try {
+    const filePath = 'files/chika/discography.html';
+    const { content, sha } = await getFile(filePath);
+
+    const newItem = `
+        <article class="disc-item">
+          <div class="disc-cover">♩</div>
+          <div class="disc-info">
+            <p class="disc-year">${year}</p>
+            <h2 class="disc-title">${title}</h2>
+            <p class="disc-label">${label}</p>
+          </div>
+        </article>`;
+
+    // ディスコグラフィーリストの先頭に追加（新しいものを上に）
+    const updated = content.replace(
+      /(<div class="discography-list">)/,
+      `$1\n${newItem}`
+    );
+
+    log(logId, 'GitHubに保存中...', 'info');
+    await putFile(filePath, updated, `ディスコグラフィー追加: ${title}`, sha);
+
+    log(logId, `✅ 完了！ ${title} を追加しました`, 'success');
+    showToast('ディスコグラフィーを追加しました！');
+
+    ['disc-year','disc-title','disc-label'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+  } catch (e) {
+    log(logId, `❌ エラー: ${e.message}`, 'error');
+    showToast('エラーが発生しました', 'error');
+  }
+}
+
+// ============================================================
+// ブログ投稿 → chika/blog.html を更新（Coming Soonを解除）
+// ============================================================
+async function addBlog() {
+  const logId = 'log-blog';
+  const title = document.getElementById('blog-title').value;
+  const body  = document.getElementById('blog-body').value;
+
+  if (!title || !body) {
+    showToast('タイトルと本文は必須です', 'error');
+    return;
+  }
+
+  log(logId, 'blog.html を取得中...', 'info');
+
+  try {
+    const filePath = 'files/chika/blog.html';
+    const { content, sha } = await getFile(filePath);
+
+    const date = new Date().toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' });
+
+    // Coming Soonのdivを実際のブログ記事に置き換える
+    const newContent = content.replace(
+      /<div class="coming-soon">[\s\S]*?<\/div>/,
+      `<div style="max-width:680px; margin:0 auto; padding: 80px 40px;">
+        <article style="border-bottom:1px solid var(--color-border); padding-bottom:60px; margin-bottom:60px;">
+          <p style="font-size:0.72rem; letter-spacing:0.2em; color:var(--color-text-muted); margin-bottom:16px;">${date}</p>
+          <h2 style="font-family:var(--font-display); font-size:1.8rem; font-weight:400; margin-bottom:24px;">${title}</h2>
+          <div style="font-size:0.9rem; line-height:2.1; color:var(--color-text);">${body.replace(/\n/g, '<br>')}</div>
+        </article>
+      </div>`
+    );
+
+    log(logId, 'GitHubに保存中...', 'info');
+    await putFile(filePath, newContent, `ブログ投稿: ${title}`, sha);
+
+    log(logId, `✅ 完了！「${title}」を投稿しました`, 'success');
+    showToast('ブログを投稿しました！');
+
+  } catch (e) {
+    log(logId, `❌ エラー: ${e.message}`, 'error');
+    showToast('エラーが発生しました', 'error');
+  }
+}
+
+// ============================================================
+// フォームクリア
+// ============================================================
+function clearEventForm() {
+  ['ev-month','ev-date','ev-title','ev-artist','ev-time','ev-charge','ev-desc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('upload-preview').style.display = 'none';
+  document.getElementById('ai-preview').classList.remove('visible');
+}
+</script>
+</body>
+</html>
