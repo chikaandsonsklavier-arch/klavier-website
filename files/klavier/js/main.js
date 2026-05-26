@@ -231,7 +231,54 @@ function initEventTabs() {
 // ページが読み込まれたら各初期化関数を実行する
 // DOMContentLoaded: HTMLの読み込みが完了したタイミングで発火するイベント
 // ============================================================
+// ============================================================
+// ⑤ 予約フォーム（Formspree）送信処理
+// 【役割】フォームをAjaxで送信し、ページ遷移せずに
+//         完了メッセージを表示する。
+// 【仕組み】fetchでFormspreeにPOST送信。成功したら
+//           フォームを非表示にして完了メッセージを表示。
+// ============================================================
+function initReservationForm() {
+  const form = document.getElementById('reservation-form');
+  if (!form) return; // 予約フォームがないページでは何もしない
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // デフォルトのページ遷移を止める
+
+    const btn = document.getElementById('reservation-submit');
+    btn.textContent = '送信中...';
+    btn.disabled = true; // 二重送信を防ぐ
+
+    try {
+      // FormspreeにAjaxでデータを送信
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form), // フォームの入力内容をそのまま送る
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        // 送信成功 → フォームを隠して完了メッセージを表示
+        form.style.display = 'none';
+        document.getElementById('reservation-success').style.display = 'block';
+      } else {
+        // 送信失敗
+        btn.textContent = '送信に失敗しました。再度お試しください。';
+        btn.disabled = false;
+      }
+    } catch (error) {
+      btn.textContent = 'エラーが発生しました。お電話にてご予約ください。';
+      btn.disabled = false;
+    }
+  });
+}
+
+// ============================================================
+// ページが読み込まれたら各初期化関数を実行する
+// DOMContentLoaded: HTMLの読み込みが完了したタイミングで発火するイベント
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  initSlideshow();  // スライドショーの初期化
-  initEventTabs();  // 月別タブの初期化
+  initSlideshow();        // スライドショーの初期化
+  initEventTabs();        // 月別タブの初期化
+  initReservationForm();  // 予約フォームの初期化
 });

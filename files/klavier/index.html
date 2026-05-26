@@ -8,6 +8,14 @@
   <title>Jazz & Wine KLAVIER クラヴィエール | 阿佐ヶ谷</title>
   <!-- ↓ 共通スタイルシートの読み込み -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6R57ZZHMG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6R57ZZHMG');
+  </script>
 </head>
 <body>
 
@@ -32,8 +40,8 @@
       <li><a href="events.html">イベント</a></li>
       <!-- ↓ 外部リンク：豊田チカのサイトへ -->
       <li><a href="../chika/index.html">豊田チカ</a></li>
-      <!-- ↓ 予約を促すCTAボタン（アクセントカラーで目立たせる） -->
-      <li><a href="tel:0333930418" class="nav-cta">予約する</a></li>
+      <!-- ↓ 予約フォームへスクロール -->
+      <li><a href="#reservation" class="nav-cta">予約する</a></li>
     </ul>
   </nav>
 
@@ -61,8 +69,8 @@
 
       <!-- CTAボタン群：予約と詳細確認の2択を提示 -->
       <div class="hero-buttons">
-        <!-- ↓ 電話番号リンク：スマートフォンからそのまま電話できる -->
-        <a href="tel:0333930418" class="btn-primary">今すぐ予約する</a>
+        <!-- ↓ 予約フォームへスクロール -->
+        <a href="#reservation" class="btn-primary">今すぐ予約する</a>
         <a href="events.html" class="btn-secondary">イベントを見る</a>
       </div>
     </div>
@@ -147,6 +155,147 @@
             </a>
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       予約セクション
+       電話とFormspreeフォームの2種類を並べて表示
+       id="reservation" でナビの「予約する」ボタンからスクロールで飛んでくる
+       ============================================================ -->
+  <section class="section" id="reservation" aria-label="ご予約">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Reservation</span>
+        <h2 class="section-title">ご予約</h2>
+      </div>
+
+      <!-- 2カラム：左=電話、右=メールフォーム -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+
+        <!-- ── 電話予約 ── -->
+        <div style="background: var(--color-bg-soft); border: 1px solid var(--color-border); border-radius: 4px; padding: 48px 40px; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 16px;">📞</div>
+          <p style="font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 12px;">Phone</p>
+          <h3 style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 300; margin-bottom: 8px;">お電話で予約</h3>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 32px; line-height: 1.9;">
+            当日のご予約もお気軽にどうぞ。<br>
+            営業時間内（19:00〜24:00）に<br>
+            お電話ください。
+          </p>
+          <!-- tel: リンク：スマートフォンからタップで電話できる -->
+          <a href="tel:0333930418" class="btn-primary" style="font-size: 1rem; padding: 18px 40px; letter-spacing: 0.15em; display: inline-block;">
+            03-3393-0418
+          </a>
+        </div>
+
+        <!-- ── メールフォーム（Formspree） ── -->
+        <div style="background: var(--color-bg-soft); border: 1px solid var(--color-border); border-radius: 4px; padding: 48px 40px;">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <div style="font-size: 2rem; margin-bottom: 16px;">✉️</div>
+            <p style="font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 12px;">Email</p>
+            <h3 style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 300;">メールで予約</h3>
+          </div>
+
+          <!-- ============================================================
+               Formspreeフォーム
+               action属性のURLがFormspreeのエンドポイント。
+               送信するとFormspreeがGmailに転送してくれる。
+               ============================================================ -->
+          <form
+            id="reservation-form"
+            action="https://formspree.io/f/xojbkowa"
+            method="POST"
+          >
+            <!-- お名前 -->
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 6px;">
+                お名前 <span style="color: var(--color-accent);">*</span>
+              </label>
+              <!-- name属性がFormspreeでのフィールド名になる -->
+              <input
+                type="text"
+                name="お名前"
+                required
+                placeholder="例：山田 花子"
+                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--color-accent)'"
+                onblur="this.style.borderColor='var(--color-border)'"
+              >
+            </div>
+
+            <!-- 希望日 -->
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 6px;">
+                ご希望日 <span style="color: var(--color-accent);">*</span>
+              </label>
+              <input
+                type="text"
+                name="ご希望日"
+                required
+                placeholder="例：6月7日（土）"
+                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--color-accent)'"
+                onblur="this.style.borderColor='var(--color-border)'"
+              >
+            </div>
+
+            <!-- 人数 -->
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 6px;">
+                人数 <span style="color: var(--color-accent);">*</span>
+              </label>
+              <select
+                name="人数"
+                required
+                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); -webkit-appearance:none;"
+              >
+                <option value="">選択してください</option>
+                <option>1名</option>
+                <option>2名</option>
+                <option>3名</option>
+                <option>4名</option>
+                <option>5名以上</option>
+              </select>
+            </div>
+
+            <!-- メッセージ -->
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 6px;">
+                メッセージ（任意）
+              </label>
+              <textarea
+                name="メッセージ"
+                rows="3"
+                placeholder="アレルギーや特別なご要望などがあればご記入ください"
+                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); resize:vertical; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--color-accent)'"
+                onblur="this.style.borderColor='var(--color-border)'"
+              ></textarea>
+            </div>
+
+            <!-- 送信ボタン -->
+            <button
+              type="submit"
+              id="reservation-submit"
+              class="btn-primary"
+              style="width:100%; padding:14px; font-size:0.82rem; letter-spacing:0.12em;"
+            >
+              予約リクエストを送る
+            </button>
+          </form>
+
+          <!-- 送信完了メッセージ（JSで表示） -->
+          <div id="reservation-success" style="display:none; text-align:center; padding:32px 0;">
+            <p style="font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 12px;">ありがとうございます</p>
+            <p style="font-size: 0.82rem; color: var(--color-text-muted);">
+              予約リクエストを受け付けました。<br>
+              確認後、ご連絡いたします。
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

@@ -845,6 +845,16 @@ a {
 
   .hero-buttons { flex-direction: column; align-items: center; }
 
+  /* 予約セクション：スマホは縦積みに */
+  #reservation .container > div > div:last-child,
+  #reservation .container > div > div:first-child {
+    grid-column: 1;
+  }
+
+  #reservation [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
   .event-card {
     grid-template-columns: 1fr; /* スマホは1カラム（縦積み）に */
   }
