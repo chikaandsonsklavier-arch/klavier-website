@@ -6,6 +6,14 @@
   <meta name="description" content="豊田チカ（Chika Toyota）公式サイト。ジャズボーカリスト。プロフィール・ライブスケジュール・ボイスレッスン・ディスコグラフィー。">
   <title>豊田チカ | Jazz Vocalist</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6R57ZZHMG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6R57ZZHMG');
+  </script>
 </head>
 <body>
 
@@ -38,7 +46,15 @@
        豊田チカの名前を大きく・シンプルに表示する
        ============================================================ -->
   <section class="hero" aria-label="メインビジュアル">
-    <div class="hero-inner">
+    <!-- ヒーロー背景画像（薄く表示してシンプルさを維持） -->
+    <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+      <img
+        src="images/chika-profile.webp"
+        alt="豊田チカ"
+        style="width:100%; height:100%; object-fit:cover; object-position:top center; opacity:0.18;"
+      >
+    </div>
+    <div class="hero-inner" style="position:relative; z-index:1;">
       <p class="hero-eyebrow">Jazz Vocalist</p>
 
       <!-- メインのアーティスト名 -->
@@ -58,6 +74,8 @@
         <a href="../klavier/index.html" class="hero-nav-link" target="_blank">KLAVIER</a>
       </nav>
     </div>
+    </div>
+
   </section>
 
   <!-- ============================================================

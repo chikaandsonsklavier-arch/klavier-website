@@ -50,19 +50,32 @@
        最初に目に入る部分。訪問者に強い印象を与える。
        ============================================================ -->
   <section class="hero" aria-label="メインビジュアル">
-    <div class="hero-inner">
+    <!-- ヒーロー背景画像
+         position:absolute で全体に広がる。
+         object-fit:cover で縦横比を保ちながらトリミング。
+         z-index:0 でテキストの後ろに配置。 -->
+    <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+      <img
+        src="images/hero.webp"
+        alt="Jazz bar KLAVIER 店内"
+        style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.55;"
+      >
+      <!-- 暗いグラデーション（テキストを読みやすくする） -->
+      <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);"></div>
+    </div>
+    <div class="hero-inner" style="position:relative; z-index:1;">
       <!-- 小さなラベル（eyebrow） -->
-      <p class="hero-eyebrow">Jazz &amp; Wine — 阿佐ヶ谷</p>
+      <p class="hero-eyebrow" style="color:rgba(255,255,255,0.7);">Jazz &amp; Wine — 阿佐ヶ谷</p>
 
       <!-- メインタイトル -->
       <!-- clamp()でフォントサイズを画面幅に合わせて柔軟に変化させている -->
-      <h1 class="hero-title">KLAVIER</h1>
+      <h1 class="hero-title" style="color:#fff;">KLAVIER</h1>
 
       <!-- サブタイトル（斜体のジャズらしい雰囲気） -->
-      <p class="hero-subtitle">クラヴィエール</p>
+      <p class="hero-subtitle" style="color:rgba(255,255,255,0.7);">クラヴィエール</p>
 
       <!-- 店舗の基本情報 -->
-      <p class="hero-info">
+      <p class="hero-info" style="color:rgba(255,255,255,0.8);">
         <strong>阿佐ヶ谷駅徒歩0分</strong>　杉並区阿佐谷南3-37-13-3F（富士そばビル）<br>
         営業時間 19:00 〜 24:00（L.O. 23:20）　定休日：日・月・祝
       </p>
@@ -75,8 +88,9 @@
       </div>
     </div>
 
+    </div>
     <!-- スクロール促進の矢印 -->
-    <div class="hero-scroll" aria-hidden="true">scroll</div>
+    <div class="hero-scroll" aria-hidden="true" style="color:rgba(255,255,255,0.6);">scroll</div>
   </section>
 
   <!-- ============================================================
@@ -155,6 +169,57 @@
             </a>
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       フォトギャラリーセクション
+       4枚の写真をグリッドで表示して雰囲気を伝える
+       ============================================================ -->
+  <section class="section" aria-label="店内ギャラリー">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Gallery</span>
+        <h2 class="section-title">店内の雰囲気</h2>
+      </div>
+
+      <!-- 4枚グリッド：左に大きな1枚、右に3枚 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:12px;">
+
+        <!-- 左：大きなメイン写真（2行分） -->
+        <div style="grid-row:1/3; overflow:hidden; border-radius:4px;">
+          <img
+            src="images/negroni.webp"
+            alt="KLAVIERのカクテル"
+            style="width:100%; height:100%; object-fit:cover; object-position:center; transition:transform 0.4s ease;"
+            onmouseover="this.style.transform='scale(1.03)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+        </div>
+
+        <!-- 右上 -->
+        <div style="overflow:hidden; border-radius:4px; aspect-ratio:4/3;">
+          <img
+            src="images/piano.webp"
+            alt="KLAVIERのステージ"
+            style="width:100%; height:100%; object-fit:cover; object-position:center; transition:transform 0.4s ease;"
+            onmouseover="this.style.transform='scale(1.03)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+        </div>
+
+        <!-- 右下 -->
+        <div style="overflow:hidden; border-radius:4px; aspect-ratio:4/3;">
+          <img
+            src="images/view.webp"
+            alt="KLAVIERからの夜景"
+            style="width:100%; height:100%; object-fit:cover; object-position:center; transition:transform 0.4s ease;"
+            onmouseover="this.style.transform='scale(1.03)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+        </div>
+
       </div>
     </div>
   </section>
@@ -249,7 +314,7 @@
               <select
                 name="人数"
                 required
-                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); -webkit-appearance:none;appearance: none; /* ← これを追加 */"
+                style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:2px; font-family:var(--font-body); font-size:0.85rem; outline:none; background:var(--color-bg); color:var(--color-text); -webkit-appearance:none;"
               >
                 <option value="">選択してください</option>
                 <option>1名</option>
@@ -356,4 +421,3 @@
 
 </body>
 </html>
-

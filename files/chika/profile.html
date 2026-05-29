@@ -6,6 +6,14 @@
   <meta name="description" content="豊田チカ プロフィール。ジャズボーカリスト。日本ジャズヴォーカル賞大賞受賞。">
   <title>Profile | 豊田チカ</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6R57ZZHMG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6R57ZZHMG');
+  </script>
 </head>
 <body>
 
@@ -42,10 +50,15 @@
       <div class="profile-content">
 
         <!-- 写真エリア（実際の写真はここのimgタグのsrcに指定） -->
-        <div class="profile-image-placeholder" role="img" aria-label="豊田チカの写真">
-          <!-- ↓ 写真ファイルを用意したらこの img タグのコメントを外して使用 -->
-          <!-- <img src="images/chika-profile.jpg" alt="豊田チカ"> -->
-          <span style="writing-mode: vertical-rl; letter-spacing: 0.2em; font-size: 0.68rem;">photo</span>
+        <!-- プロフィール写真
+             sticky: スクロールしても写真が画面に残る
+             aspect-ratio: 縦長の写真比率を維持 -->
+        <div style="position:sticky; top:calc(var(--nav-height) + 24px);">
+          <img
+            src="images/chika-profile.webp"
+            alt="豊田チカ"
+            style="width:100%; border-radius:2px; display:block;"
+          >
         </div>
 
         <!-- テキスト -->
