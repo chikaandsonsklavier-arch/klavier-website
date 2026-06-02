@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ══════════════════════════════
+       Jazz & Wine KLAVIER
+       ══════════════════════════════ -->
+
+  <!-- ホームページ（最重要） -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/klavier/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- イベントページ（毎月更新） -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/klavier/events.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ══════════════════════════════
+       豊田チカ
+       ══════════════════════════════ -->
+
+  <!-- ホームページ -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- プロフィール -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/profile.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ライブスケジュール -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/live-schedule.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ディスコグラフィー -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/discography.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ボイスレッスン -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/vocal-lesson.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ブログ -->
+  <url>
+    <loc>https://chikaandsonsklavier-arch.github.io/klavier-website/files/chika/blog.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
