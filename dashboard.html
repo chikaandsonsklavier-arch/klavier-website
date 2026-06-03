@@ -1194,9 +1194,9 @@ async function addLive() {
           </div>
         </div>`;
 
-    // 「準備中」のサンプルアイテムの後に挿入
+    // 「準備中」アイテムの直後に挿入
     const updated = content.replace(
-      /(<div class="events-list"[^>]*>)/,
+      /(<div class="events-list"[^>]*>|<div style="display: flex[^>]*>)/,
       `$1\n${newItem}`
     );
 
