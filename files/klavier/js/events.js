@@ -197,6 +197,17 @@ const KLAVIER_EVENTS = [
     description: "",
     image: "",
   },
+  {
+    month: 7,
+    date: "7月11日(土)",
+    title: "Vocal Jam Session.神村晃司p &堀江大輔b",
+    artist: "神村晃司p &堀江大輔b",
+    time: "OPEN 19:00 / START 19:30",
+    charge: "¥3,000",
+    description: "ﾌﾟﾛﾐｭｰｼﾞｼｬﾝはゲスト扱いです。",
+    image: "",
+  },
+
 
 
 
