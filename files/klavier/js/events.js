@@ -227,6 +227,17 @@ const KLAVIER_EVENTS = [
     description: "",
     image: "",
   },
+  {
+    month: 7,
+    date: "7月24日(金)",
+    title: "井上祐一p,本川悠平b &田村陽介d ",
+    artist: "井上祐一p,本川悠平b &田村陽介d ",
+    time: "OPEN 19:00/START 19:30",
+    charge: "¥3,000",
+    description: "",
+    image: "",
+  },
+
 
 
 
