@@ -177,6 +177,17 @@ const KLAVIER_EVENTS = [
     description: "",
     image: "",
   },
+  {
+    month: 7,
+    date: "７月４日(土)",
+    title: "川嶋哲郎sax,熊谷ヤスマサp &本川悠平b",
+    artist: "川嶋哲郎sax,熊谷ヤスマサp &本川悠平b",
+    time: "OPEN 7:00/START 7:30",
+    charge: "¥3,000",
+    description: "",
+    image: "",
+  },
+
 
 ];
 
