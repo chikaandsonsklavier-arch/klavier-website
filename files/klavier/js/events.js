@@ -207,6 +207,17 @@ const KLAVIER_EVENTS = [
     description: "ﾌﾟﾛﾐｭｰｼﾞｼｬﾝはゲスト扱いです。",
     image: "",
   },
+  {
+    month: 7,
+    date: "🈵7月17日(金)",
+    title: "🈵豊田チカ,田中裕士p,水橋孝b & 小山太郎d",
+    artist: "豊田チカ,田中裕士p,水橋孝b & 小山太郎d",
+    time: "OPEN 19:00/ START 19:30",
+    charge: "¥3,900",
+    description: "",
+    image: "",
+  },
+
 
 
 
