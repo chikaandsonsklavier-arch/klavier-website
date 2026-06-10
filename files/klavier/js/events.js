@@ -217,6 +217,17 @@ const KLAVIER_EVENTS = [
     description: "",
     image: "",
   },
+  {
+    month: 7,
+    date: "7月18日(土)",
+    title: "高瀬龍一tp,平岡遊一郎g &続木徹p",
+    artist: "高瀬龍一tp,平岡遊一郎g &続木徹p",
+    time: "OPEN 19:00 / START 19:30",
+    charge: "¥3,000",
+    description: "",
+    image: "",
+  },
+
 
 
 
