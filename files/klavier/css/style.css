@@ -337,7 +337,7 @@ a {
 /* セカンダリボタン（アウトライン） */
 .btn-secondary {
   background: transparent;
-  color: var(--color-text);
+  color: white;
   padding: 15px 40px;
   font-size: 0.8rem;
   letter-spacing: 0.15em;
