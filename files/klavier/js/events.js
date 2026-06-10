@@ -187,6 +187,17 @@ const KLAVIER_EVENTS = [
     description: "",
     image: "",
   },
+  {
+    month: 7,
+    date: "7月10日(金)",
+    title: "クラヴィエールSuper Jam Session,vol 4",
+    artist: "関根敏行p &水橋孝b",
+    time: "OPEN 19:00/START 19:30",
+    charge: "¥3,000",
+    description: "",
+    image: "",
+  },
+
 
 
 ];
