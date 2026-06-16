@@ -537,18 +537,11 @@
         <!-- タブ：追加 / 一覧 -->
         <div class="tabs">
           <button class="tab active" onclick="switchTab(this, 'tab-add')">＋ イベントを追加</button>
-          <button class="tab" onclick="switchTab(this, 'tab-list')">一覧・編集・削除</button>
+          <button class="tab" onclick="switchTab(this, 'tab-list')">一覧・削除</button>
         </div>
 
         <!-- 追加タブ -->
         <div id="tab-add" class="panel active">
-          <div id="edit-mode-banner" style="display:none; padding:10px 14px; margin-bottom:16px;
-               border:1px solid var(--gold); border-radius:2px; background:rgba(184,151,58,0.08);
-               font-size:0.8rem; color:var(--gold);">
-            ✏️ 編集モード：このイベントを編集中です。変更後「更新する」を押してください。
-            <button class="btn btn-secondary btn-small" onclick="clearEventForm()"
-                    style="margin-left:10px;">編集をやめる</button>
-          </div>
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">月 <span style="color:var(--accent)">*</span></label>
@@ -1067,13 +1060,7 @@ function useBlogContent() {
 // ============================================================
 // イベント追加 → events.js を更新してGitHubにプッシュ
 // ============================================================
-// 編集中の元ブロック（null なら新規追加モード）
-let _editingRaw = null;
-
 async function addEvent() {
-  // 編集モードなら更新処理へ
-  if (_editingRaw) { return updateEvent(); }
-
   const logId = 'log-event';
   const month  = document.getElementById('ev-month').value;
   const date   = document.getElementById('ev-date').value;
@@ -1132,106 +1119,8 @@ async function addEvent() {
 }
 
 // ============================================================
-// イベント更新（編集モード）
-// ============================================================
-async function updateEvent() {
-  const logId = 'log-event';
-  const ev = {
-    month:       document.getElementById('ev-month').value,
-    date:        document.getElementById('ev-date').value,
-    title:       document.getElementById('ev-title').value,
-    artist:      document.getElementById('ev-artist').value,
-    time:        document.getElementById('ev-time').value,
-    charge:      document.getElementById('ev-charge').value,
-    description: document.getElementById('ev-desc').value,
-    image:       evField(_editingRaw, 'image'), // 既存の画像パスは維持
-  };
-
-  if (!ev.month || !ev.date || !ev.artist) {
-    showToast('月・日付・アーティスト名は必須です', 'error');
-    return;
-  }
-
-  const btn = document.getElementById('btn-add-event');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>更新中...';
-
-  try {
-    log(logId, 'events.js を取得中...', 'info');
-    const filePath = 'files/klavier/js/events.js';
-    const { content, sha } = await getFile(filePath);
-
-    if (!content.includes(_editingRaw)) {
-      throw new Error('対象イベントが見つかりませんでした。一覧を再読み込みしてください。');
-    }
-    const updated = content.replace(_editingRaw, buildEventBlock(ev));
-
-    log(logId, 'GitHubに保存中...', 'info');
-    await putFile(filePath, updated, `イベント更新: ${ev.date} ${ev.artist}`, sha);
-
-    log(logId, `✅ 更新しました: ${ev.date} ${ev.artist}`, 'success');
-    log(logId, '⏳ サイトへの反映まで1〜2分かかります', 'info');
-    showToast('イベントを更新しました！');
-    clearEventForm();
-  } catch (e) {
-    log(logId, `❌ エラー: ${e.message}`, 'error');
-    showToast('更新に失敗しました', 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'GitHubに保存して公開する';
-  }
-}
-
-// ============================================================
 // イベント一覧読み込み
 // ============================================================
-// 各イベントをキャッシュ（編集・削除で再利用）
-let _eventCache = [];
-
-// events.js のテキストから各イベントオブジェクトを解析する
-function parseEventsFromContent(content) {
-  // 配列本体 [ ... ] を取り出す
-  const arr = content.match(/=\s*\[([\s\S]*)\]\s*;?/);
-  const body = arr ? arr[1] : content;
-  // 各 { ... } ブロック（ネストなし前提）を取得
-  const blocks = [...body.matchAll(/\{[\s\S]*?\}/g)].map(m => m[0]);
-  return blocks.map(block => ({
-    raw: block,
-    month:       evField(block, 'month', true),
-    date:        evField(block, 'date'),
-    title:       evField(block, 'title'),
-    artist:      evField(block, 'artist'),
-    time:        evField(block, 'time'),
-    charge:      evField(block, 'charge'),
-    description: evField(block, 'description'),
-    image:       evField(block, 'image'),
-  }));
-}
-
-// 1ブロックから1フィールドを取り出す
-function evField(block, key, isNum) {
-  if (isNum) {
-    const m = block.match(new RegExp(key + '\\s*:\\s*(\\d+)'));
-    return m ? m[1] : '';
-  }
-  const m = block.match(new RegExp(key + '\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)"'));
-  return m ? m[1].replace(/\\"/g, '"') : '';
-}
-
-// フォームの値からイベントオブジェクト文字列を作る（末尾カンマなし）
-function buildEventBlock(ev) {
-  return `{
-    month: ${ev.month},
-    date: "${ev.date}",
-    title: "${ev.title}",
-    artist: "${ev.artist}",
-    time: "${ev.time || 'OPEN 19:00 / START 19:30'}",
-    charge: "${ev.charge || '¥3,000'}",
-    description: "${(ev.description || '').replace(/"/g, '\\"')}",
-    image: "${ev.image || ''}",
-  }`;
-}
-
 async function loadEventList() {
   const logId = 'log-list';
   const container = document.getElementById('event-list-container');
@@ -1239,93 +1128,30 @@ async function loadEventList() {
 
   try {
     const { content } = await getFile('files/klavier/js/events.js');
-    _eventCache = parseEventsFromContent(content);
 
-    if (_eventCache.length === 0) {
+    // events.jsからイベントデータを正規表現で抽出
+    const matches = [...content.matchAll(/month:\s*(\d+)[^}]*date:\s*"([^"]+)"[^}]*title:\s*"([^"]+)"[^}]*artist:\s*"([^"]+)"/gs)];
+
+    if (matches.length === 0) {
       container.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">イベントが見つかりません</p>';
       return;
     }
 
-    container.innerHTML = _eventCache.map((ev, i) => `
-      <div style="display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center;
+    container.innerHTML = matches.map((m, i) => `
+      <div style="display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
                   padding:14px 16px; border:1px solid var(--border); border-radius:2px; margin-bottom:8px;">
         <div>
-          <div style="font-size:0.72rem; color:var(--gold); margin-bottom:4px;">${ev.month}月 — ${ev.date}</div>
-          <div style="font-size:0.88rem;">${ev.title}</div>
-          <div style="font-size:0.78rem; color:var(--text-muted);">${ev.artist}</div>
+          <div style="font-size:0.72rem; color:var(--gold); margin-bottom:4px;">${m[1]}月 — ${m[2]}</div>
+          <div style="font-size:0.88rem;">${m[3]}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">${m[4]}</div>
         </div>
-        <button class="btn btn-secondary btn-small" onclick="editEvent(${i})" title="編集">🖊️ 編集</button>
-        <button class="btn btn-secondary btn-small" onclick="deleteEvent(${i})" title="削除"
-                style="border-color:var(--accent); color:var(--accent-light);">🗑️ 削除</button>
       </div>
     `).join('');
 
-    log(logId, `✅ ${_eventCache.length}件のイベントを読み込みました`, 'success');
+    log(logId, `✅ ${matches.length}件のイベントを読み込みました`, 'success');
 
   } catch (e) {
     container.innerHTML = `<p style="color:var(--accent-light);font-size:0.82rem;">❌ ${e.message}</p>`;
-  }
-}
-
-// ── 編集：フォームに読み込んで「追加」タブへ ──
-function editEvent(i) {
-  const ev = _eventCache[i];
-  if (!ev) return;
-  document.getElementById('ev-month').value  = ev.month;
-  document.getElementById('ev-date').value   = ev.date;
-  document.getElementById('ev-title').value  = ev.title;
-  document.getElementById('ev-artist').value = ev.artist;
-  document.getElementById('ev-time').value   = ev.time;
-  document.getElementById('ev-charge').value = ev.charge;
-  document.getElementById('ev-desc').value   = ev.description;
-
-  // 編集モードにする（元ブロックを記憶）
-  _editingRaw = ev.raw;
-
-  // 「追加」タブに切り替え
-  const tabs = document.querySelectorAll('#section-klavier-event .tab');
-  tabs.forEach(t => t.classList.remove('active'));
-  tabs[0].classList.add('active');
-  document.getElementById('tab-add').classList.add('active');
-  document.getElementById('tab-list').classList.remove('active');
-
-  // ボタン文言を更新モードに
-  const btn = document.getElementById('btn-add-event');
-  btn.innerHTML = '✏️ このイベントを更新する';
-  document.getElementById('edit-mode-banner').style.display = 'block';
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  showToast('編集モード：内容を直して「更新する」を押してください', 'success');
-}
-
-// ── 削除 ──
-async function deleteEvent(i) {
-  const ev = _eventCache[i];
-  if (!ev) return;
-  if (!confirm(`このイベントを削除しますか？\n\n${ev.date}　${ev.artist}\n\n※この操作は元に戻せません`)) return;
-
-  const logId = 'log-list';
-  try {
-    log(logId, 'events.js を取得中...', 'info');
-    const { content, sha } = await getFile('files/klavier/js/events.js');
-
-    if (!content.includes(ev.raw)) {
-      throw new Error('対象イベントが見つかりませんでした。一覧を再読み込みしてください。');
-    }
-    // ブロック＋直後のカンマと前後の空白を除去
-    const escaped = ev.raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const updated = content.replace(new RegExp('\\s*' + escaped + '\\s*,?'), '\n');
-
-    log(logId, 'GitHubに保存中...', 'info');
-    await putFile('files/klavier/js/events.js', updated, `イベント削除: ${ev.date} ${ev.artist}`, sha);
-
-    log(logId, `✅ 削除しました: ${ev.date} ${ev.artist}`, 'success');
-    log(logId, '⏳ サイトへの反映まで1〜2分かかります', 'info');
-    showToast('イベントを削除しました');
-    await loadEventList();
-  } catch (e) {
-    log(logId, `❌ エラー: ${e.message}`, 'error');
-    showToast('削除に失敗しました', 'error');
   }
 }
 
@@ -1368,9 +1194,9 @@ async function addLive() {
           </div>
         </div>`;
 
-    // 「準備中」アイテムの直後に挿入
+    // 「準備中」のサンプルアイテムの後に挿入
     const updated = content.replace(
-      /(<div class="events-list"[^>]*>|<div style="display: flex[^>]*>)/,
+      /(<div class="events-list"[^>]*>)/,
       `$1\n${newItem}`
     );
 
@@ -1498,12 +1324,6 @@ function clearEventForm() {
   });
   document.getElementById('upload-preview').style.display = 'none';
   document.getElementById('ai-preview').classList.remove('visible');
-  // 編集モードを解除
-  _editingRaw = null;
-  const btn = document.getElementById('btn-add-event');
-  if (btn) btn.innerHTML = 'GitHubに保存して公開する';
-  const banner = document.getElementById('edit-mode-banner');
-  if (banner) banner.style.display = 'none';
 }
 </script>
 </body>

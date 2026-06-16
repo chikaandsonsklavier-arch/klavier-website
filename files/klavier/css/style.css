@@ -353,6 +353,10 @@ a {
   border-color: var(--color-text);
   transform: translateY(-2px);
 }
+.hero-buttons .btn-secondary {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.6);
+}
 
 /* スクロール誘導の矢印 */
 .hero-scroll {
